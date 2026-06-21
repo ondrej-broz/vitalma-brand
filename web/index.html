@@ -22,41 +22,40 @@
   }
 
   #mark{
-    width:min(640px,84vw);
+    width:min(660px,86vw);
     height:auto;
     overflow:visible;
     display:block;
   }
-  #mark g, #mark path, #mark rect, #mark circle{ fill:var(--cream); }
+  #mark path, #mark rect, #mark circle{ fill:var(--cream); }
 
-  /* groups that animate — origin = their own bounding-box center */
-  #gV,#gA,#gMid{ transform-box:fill-box; transform-origin:center; }
+  /* matrices are applied in raw user coordinates */
+  #bmV,#bmA{ transform-origin:0 0; }
 
-  /* START state = "VA" monogram: V & A enlarged and pulled to the centre,
-     middle letters hidden. */
-  #gV{ transform:translateX(310px) scale(1.55); }
-  #gA{ transform:translateX(-310px) scale(1.55); }
-  #gMid{ opacity:0; transform:scale(.94); }
+  /* ---- START state = exact brandmark.svg (bold "VA", centred) ---- */
+  #bmV{ transform:matrix(0.2176,0,0,0.2176,268.27,-22); }
+  #bmA{ transform:matrix(0.2176,0,0,0.2176,268.27,-22); }
+  #bmLayer{ opacity:1; }
+  #loVA{ opacity:0; }
+  #loMid{ opacity:0; }
 
-  /* transitions (run in both directions for replay) */
-  #gV,#gA{ transition:transform 1.5s cubic-bezier(.66,0,.2,1) .55s; }
-  #gMid{ transition:opacity 1s ease 1.15s, transform 1.25s cubic-bezier(.66,0,.2,1) 1.15s; }
+  /* ---- transitions ---- */
+  #bmV,#bmA{ transition:transform 1.5s cubic-bezier(.66,0,.2,1) .55s; }
+  #bmLayer{ transition:opacity .45s ease 2s; }      /* bold marks fade out … */
+  #loVA{ transition:opacity .45s ease 2s; }         /* … crossfade to thin V/A */
+  #loMid{ transition:opacity .8s ease 1.2s; }       /* middle letters appear */
 
-  /* END state = full wordmark */
-  #mark.go #gV{ transform:none; }
-  #mark.go #gA{ transform:none; }
-  #mark.go #gMid{ opacity:1; transform:none; }
+  /* ---- END state = exact VITALMA wordmark ---- */
+  #mark.go #bmV{ transform:matrix(0.1443,0,0,0.1443,0,0); }
+  #mark.go #bmA{ transform:matrix(0.1443,0,0,0.1443,618.657,0); }
+  #mark.go #bmLayer{ opacity:0; }
+  #mark.go #loVA{ opacity:1; }
+  #mark.go #loMid{ opacity:1; }
 
   .hint{
-    position:fixed;
-    bottom:26px;left:0;right:0;
-    text-align:center;
-    color:var(--cream);
-    font:300 12px/1 system-ui,sans-serif;
-    letter-spacing:.22em;
-    text-transform:uppercase;
-    opacity:.45;
-    transition:opacity .4s;
+    position:fixed;bottom:26px;left:0;right:0;text-align:center;
+    color:var(--cream);font:300 12px/1 system-ui,sans-serif;
+    letter-spacing:.22em;text-transform:uppercase;opacity:.4;transition:opacity .4s;
   }
   body:hover .hint{opacity:.7}
 </style>
@@ -64,14 +63,17 @@
 <body>
 
   <svg id="mark" viewBox="0 0 780.11 86.21" xmlns="http://www.w3.org/2000/svg" aria-label="Vitalma">
-    <!-- V (start letter, dot above) -->
-    <g id="gV">
+
+    <!-- thin wordmark V + A (hidden at start, crossfade in at the end) -->
+    <g id="loVA">
       <path d="M7.16,0h0c2.63,0,5.05,1.44,6.29,3.75,8.53,15.9,22.45,47.24,31.41,65.66h.33c9.25-18.4,22.89-49.5,31.13-65.56C77.52,1.48,79.97,0,82.63,0h0c5.21,0,8.65,5.41,6.43,10.13l-32.1,68.42c-2.19,4.67-6.89,7.66-12.05,7.66h0c-5.16,0-9.85-2.98-12.05-7.65L.69,10.19C-1.54,5.45,1.92,0,7.16,0Z"/>
       <circle cx="44.85" cy="10.4" r="10"/>
+      <path d="M772.95,86.21h0c-2.63,0-5.05-1.44-6.29-3.75-8.53-15.9-22.45-47.24-31.41-65.66h-.33c-9.25,18.4-22.89,49.5-31.13,65.56-1.21,2.37-3.66,3.85-6.32,3.85h0c-5.21,0-8.65-5.41-6.43-10.13l32.1-68.42C725.34,2.98,730.04,0,735.2,0h0c5.16,0,9.85,2.98,12.05,7.65l32.17,68.37c2.23,4.74-1.23,10.19-6.47,10.19Z"/>
+      <circle cx="735.25" cy="76.21" r="10"/>
     </g>
 
-    <!-- I T A L M  (middle letters, revealed) -->
-    <g id="gMid">
+    <!-- middle letters I T A L M (revealed in the gap) -->
+    <g id="loMid">
       <rect x="134.92" y="0" width="14.7" height="86.21" rx="7.35" ry="7.35"/>
       <path d="M191.51,6.41h0C191.51,2.87,194.38,0,197.92,0h68.19c3.54,0,6.41,2.87,6.41,6.41h0c0,3.54-2.87,6.41-6.41,6.41h-26.86v66.09c0,4.03-3.27,7.29-7.29,7.29h0c-4.03,0-7.29-3.27-7.29-7.29V12.82h-26.75c-3.54,0-6.41-2.87-6.41-6.41Z"/>
       <path d="M377.74,86.21h0c-2.63,0-5.05-1.44-6.29-3.75-8.53-15.9-22.45-47.24-31.41-65.66h-.33c-9.25,18.4-22.89,49.5-31.13,65.56-1.21,2.37-3.66,3.85-6.32,3.85h0c-5.21,0-8.65-5.41-6.43-10.13L327.94,7.66C330.13,2.98,334.83,0,339.99,0h0c5.16,0,9.85,2.98,12.05,7.65l32.17,68.37c2.23,4.74-1.23,10.19-6.47,10.19Z"/>
@@ -79,10 +81,16 @@
       <path d="M547.2,0h0c4.13,0,7.95,2.23,9.97,5.84,11.06,19.71,22.13,39.42,33.19,59.04h.22c11.17-19.62,22.24-39.32,33.31-59.04C625.92,2.23,629.73,0,633.86,0h0c6.31,0,11.43,5.12,11.43,11.43v67.31c0,4.12-3.34,7.46-7.46,7.46h0c-4.12,0-7.46-3.34-7.46-7.46V26.19h-.44l-30.87,54.96c-1.75,3.12-5.05,5.05-8.63,5.05h0c-3.59,0-6.89-1.94-8.64-5.07-10.22-18.31-20.45-36.62-30.77-54.94h-.33v52.55c0,4.12-3.34,7.46-7.46,7.46h0c-4.12,0-7.46-3.34-7.46-7.46V11.43C535.77,5.12,540.89,0,547.2,0Z"/>
     </g>
 
-    <!-- A (end letter, dot below) -->
-    <g id="gA">
-      <path d="M772.95,86.21h0c-2.63,0-5.05-1.44-6.29-3.75-8.53-15.9-22.45-47.24-31.41-65.66h-.33c-9.25,18.4-22.89,49.5-31.13,65.56-1.21,2.37-3.66,3.85-6.32,3.85h0c-5.21,0-8.65-5.41-6.43-10.13l32.1-68.42C725.34,2.98,730.04,0,735.2,0h0c5.16,0,9.85,2.98,12.05,7.65l32.17,68.37c2.23,4.74-1.23,10.19-6.47,10.19Z"/>
-      <circle cx="735.25" cy="76.21" r="10"/>
+    <!-- the REAL brandmark: bold V + A, each moves independently -->
+    <g id="bmLayer">
+      <g id="bmV">
+        <path d="M49.6,0h0c18.21,0,34.98,9.95,43.59,25.99,59.15,110.18,155.6,327.39,217.65,455.02h2.29c64.1-127.49,158.64-343.06,215.72-454.34C537.28,10.26,554.2,0,572.64,0h0c36.08,0,59.92,37.52,44.59,70.18l-222.5,474.18c-15.2,32.39-47.75,53.08-83.53,53.08h0c-35.74,0-68.27-20.64-83.49-52.99L4.77,70.64C-10.69,37.78,13.29,0,49.6,0Z"/>
+        <circle cx="310.85" cy="72.05" r="69.3"/>
+      </g>
+      <g id="bmA">
+        <path d="M1069.24,597.44h0c-18.21,0-34.98-9.95-43.59-26-59.15-110.18-155.6-327.39-217.65-455.02h-2.29c-64.1,127.49-158.64,343.06-215.72,454.34-8.42,16.41-25.34,26.67-43.78,26.67h0c-36.08,0-59.92-37.52-44.59-70.18L724.11,53.08C739.31,20.68,771.86,0,807.64,0h0C843.39,0,875.92,20.64,891.13,52.99l222.93,473.81c15.46,32.86-8.51,70.64-44.83,70.64Z"/>
+        <circle cx="807.99" cy="528.13" r="69.3"/>
+      </g>
     </g>
   </svg>
 
@@ -92,10 +100,10 @@
   var mark=document.getElementById('mark');
   function play(){
     mark.classList.remove('go');
-    void mark.offsetWidth;            // force reflow → restart transition
+    void mark.offsetWidth;            // restart transitions
     setTimeout(function(){mark.classList.add('go');},60);
   }
-  window.addEventListener('load',function(){ setTimeout(function(){mark.classList.add('go');},550); });
+  window.addEventListener('load',function(){ setTimeout(function(){mark.classList.add('go');},600); });
   document.body.addEventListener('click',play);
 </script>
 </body>
