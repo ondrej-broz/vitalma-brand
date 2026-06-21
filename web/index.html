@@ -30,6 +30,7 @@
   .cream .wmark path,.cream .wmark rect,.cream .wmark circle{fill:var(--green)}
 
   /* intro animation (hero only) */
+  #intro{ transition:opacity .45s ease; }
   #bmV,#bmA{ transform-origin:0 0; }
   #bmV{ transform:matrix(0.42,0,0,0.42,155.04,-82.46); }
   #bmA{ transform:matrix(0.42,0,0,0.42,155.04,-82.46); }
@@ -155,14 +156,19 @@
 <script>
   /* intro animation */
   var introMark=document.getElementById('intro');
-  function playIntro(){
-    introMark.classList.add('snap');    /* disable transitions */
-    introMark.classList.remove('go');   /* snap back to start */
-    void introMark.offsetWidth;         /* force reflow */
-    introMark.classList.remove('snap'); /* re-enable transitions */
-    setTimeout(function(){ introMark.classList.add('go'); },60);
+  function playForward(){ introMark.classList.add('go'); }   /* brandmark opens into wordmark */
+  function loopReset(){
+    introMark.style.opacity='0';                  /* fade the finished wordmark out */
+    setTimeout(function(){
+      introMark.classList.add('snap');            /* transitions off */
+      introMark.classList.remove('go');           /* snap back to brandmark, hidden */
+      void introMark.offsetWidth;                 /* commit the reset */
+      introMark.classList.remove('snap');         /* transitions on */
+      introMark.style.opacity='1';                /* fade the brandmark in */
+      setTimeout(playForward,260);                /* then open it again */
+    },460);
   }
-  setTimeout(function(){ playIntro(); setInterval(playIntro,5000); },400);
+  setTimeout(function(){ playForward(); setInterval(loopReset,5500); },400);
 
   /* before / after comparison slider (follows the cursor) */
   var cmp=document.getElementById('cmp');
