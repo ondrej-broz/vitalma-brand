@@ -3,30 +3,34 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Vitalma</title>
+<title>Vitalma — vizuální identita</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Outfit:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
   :root{
     --green:#4a7a4a;
+    --green-deep:#2c4f2c;
     --cream:#f5edd8;
+    --ink-soft:#4d614d;
+    --serif:'Marcellus',Georgia,serif;
+    --sans:'Outfit',system-ui,sans-serif;
   }
   *{box-sizing:border-box;margin:0;padding:0}
   html{scroll-behavior:smooth}
-  body{background:var(--cream)}
+  body{background:var(--cream);font-family:var(--sans)}
 
-  /* fixed full-screen viewport holds both colour versions */
+  /* ===== INTRO: fixed full-screen colour wipe ===== */
   .viewport{position:fixed;inset:0;overflow:hidden;z-index:0}
   .layer{position:absolute;inset:0;display:flex;align-items:center;justify-content:center}
-  .layer.reverse{background:var(--cream)}                                   /* green logo on cream */
-  .layer.hero{background:var(--green);clip-path:inset(0 0 0 0);will-change:clip-path}  /* cream logo on green */
-
-  /* a real, in-flow element that creates the scroll distance */
+  .layer.reverse{background:var(--cream)}
+  .layer.hero{background:var(--green);clip-path:inset(0 0 0 0);will-change:clip-path}
   .spacer{position:relative;z-index:1;height:240vh;pointer-events:none}
 
   .wmark{width:min(760px,92vw);height:auto;overflow:visible;display:block}
   .reverse .wmark path,.reverse .wmark rect,.reverse .wmark circle{fill:var(--green)}
   .hero    .wmark path,.hero    .wmark rect,.hero    .wmark circle{fill:var(--cream)}
 
-  /* ---- intro animation lives on the hero layer ---- */
   #bmV,#bmA{ transform-origin:0 0; }
   #bmV{ transform:matrix(0.42,0,0,0.42,155.04,-82.46); }
   #bmA{ transform:matrix(0.42,0,0,0.42,155.04,-82.46); }
@@ -44,20 +48,49 @@
   #intro.go #loMid{ opacity:1; }
 
   .cue{
-    position:fixed;bottom:28px;left:0;right:0;text-align:center;z-index:2;
-    color:var(--cream);font:300 12px/1 system-ui,sans-serif;
+    position:fixed;bottom:28px;left:0;right:0;text-align:center;z-index:3;
+    color:var(--cream);font:300 12px/1 var(--sans);
     letter-spacing:.24em;text-transform:uppercase;opacity:.55;pointer-events:none;
     mix-blend-mode:difference;
   }
   .cue .arrow{display:block;font-size:18px;margin-top:8px;animation:bob 1.8s ease-in-out infinite}
   @keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(6px)}}
+
+  /* ===== CONTENT: scrolls up over the fixed intro ===== */
+  .content{position:relative;z-index:2}
+  .sec{background:var(--cream);padding:clamp(80px,12vh,140px) 0}
+  .wrap{max-width:1200px;margin:0 auto;padding:0 32px}
+  .sec-head{display:flex;align-items:center;gap:12px;font-weight:400;letter-spacing:.28em;
+    text-transform:uppercase;font-size:13px;color:var(--ink-soft);margin-bottom:22px}
+  .sec-head .num{font-family:var(--serif);font-size:15px}
+  .sec-head .line{height:1px;flex:1;max-width:70px;background:currentColor;opacity:.3}
+  h2.title{font-family:var(--serif);font-weight:400;font-size:clamp(30px,5vw,54px);
+    line-height:1.12;color:var(--green-deep);margin-bottom:18px}
+  .lead{font-weight:300;font-size:clamp(17px,2.2vw,21px);max-width:62ch;color:var(--ink-soft);margin-bottom:44px}
+
+  /* before / after comparison slider */
+  .compare{position:relative;width:100%;aspect-ratio:1582/994;border-radius:16px;overflow:hidden;
+    cursor:ew-resize;user-select:none;box-shadow:0 30px 60px rgba(0,0,0,.18)}
+  .compare img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;
+    pointer-events:none;-webkit-user-drag:none}
+  .compare .top{clip-path:inset(0 50% 0 0)}
+  .compare .divider{position:absolute;top:0;bottom:0;left:50%;width:2px;background:var(--cream);
+    box-shadow:0 0 0 1px rgba(0,0,0,.12);pointer-events:none}
+  .compare .knob{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+    width:50px;height:50px;border-radius:50%;background:var(--cream);color:var(--green);
+    display:flex;align-items:center;justify-content:center;font-size:17px;letter-spacing:-2px;
+    box-shadow:0 6px 18px rgba(0,0,0,.28)}
+  .tag{position:absolute;bottom:18px;font-weight:400;font-size:11px;letter-spacing:.18em;
+    text-transform:uppercase;color:#fff;background:rgba(20,30,20,.34);padding:7px 13px;
+    border-radius:30px;-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);pointer-events:none}
+  .tag-l{left:18px}.tag-r{right:18px}
+  .hint-sm{margin-top:16px;font-size:13px;color:var(--ink-soft);opacity:.8;font-weight:300}
 </style>
 </head>
 <body>
 
+ <!-- ===== INTRO (fixed) ===== -->
  <div class="viewport">
-
-  <!-- REVERSE (revealed by the wipe): green VITALMA on cream -->
   <div class="layer reverse">
    <svg class="wmark" viewBox="0 0 780.11 320" xmlns="http://www.w3.org/2000/svg" aria-label="Vitalma">
     <g transform="translate(0,116.9)">
@@ -74,7 +107,6 @@
    </svg>
   </div>
 
-  <!-- HERO (on top, wiped away on scroll): cream VITALMA on green + intro -->
   <div class="layer hero" id="heroLayer">
    <svg class="wmark" id="intro" viewBox="0 0 780.11 320" xmlns="http://www.w3.org/2000/svg" aria-label="Vitalma">
     <g transform="translate(0,116.9)">
@@ -104,20 +136,42 @@
     </g>
    </svg>
   </div>
-
  </div><!-- /viewport -->
 
- <div class="spacer"></div>
+ <div class="spacer" id="spacer"></div>
  <div class="cue" id="cue">Scrollujte<span class="arrow">↓</span></div>
 
+ <!-- ===== CONTENT ===== -->
+ <main class="content">
+  <section class="sec">
+   <div class="wrap">
+    <div class="sec-head"><span class="num">01</span> Logo v prostředí <span class="line"></span></div>
+    <h2 class="title">Stylové i v reálu.</h2>
+    <p class="lead">Logo funguje na světlém i tmavém podkladu — v jemné krémové verzi na fotografii i v sytě zelené. Přejeďte myší a porovnejte obě varianty nasazení.</p>
+
+    <div class="compare" id="cmp">
+     <img class="base" src="logo_2.jpg" alt="Světlá varianta — zelené logo">
+     <img class="top"  src="logo_1.jpg" alt="Tmavá varianta — krémové logo">
+     <div class="divider"><span class="knob">‹ ›</span></div>
+     <span class="tag tag-l">Tmavá varianta</span>
+     <span class="tag tag-r">Světlá varianta</span>
+    </div>
+    <p class="hint-sm">↔ Přejeďte myší přes obrázek pro porovnání variant</p>
+   </div>
+  </section>
+ </main>
+
 <script>
+  /* intro animation */
   var intro=document.getElementById('intro');
   window.addEventListener('load',function(){ setTimeout(function(){intro.classList.add('go');},650); });
 
-  var hero=document.getElementById('heroLayer'), cue=document.getElementById('cue'), ticking=false;
+  /* colour wipe driven by scroll through the spacer only */
+  var hero=document.getElementById('heroLayer'), cue=document.getElementById('cue'),
+      spacer=document.getElementById('spacer'), ticking=false;
   function apply(){
     ticking=false;
-    var max=document.documentElement.scrollHeight-window.innerHeight;
+    var max=spacer.offsetHeight-window.innerHeight;
     var y=window.scrollY||window.pageYOffset||document.documentElement.scrollTop||0;
     var p=max>0?Math.min(1,Math.max(0,y/max)):0;
     hero.style.clipPath='inset(0 0 '+(p*100).toFixed(2)+'% 0)';
@@ -127,6 +181,21 @@
   addEventListener('scroll',onScroll,{passive:true});
   addEventListener('resize',apply);
   apply();
+
+  /* before / after comparison slider (follows the cursor) */
+  var cmp=document.getElementById('cmp');
+  if(cmp){
+    var top=cmp.querySelector('.top'), divider=cmp.querySelector('.divider');
+    function setSplit(x){ x=Math.max(0,Math.min(100,x));
+      top.style.clipPath='inset(0 '+(100-x).toFixed(2)+'% 0 0)';
+      divider.style.left=x.toFixed(2)+'%'; }
+    function pos(e){ var r=cmp.getBoundingClientRect();
+      var cx=(e.touches&&e.touches[0])?e.touches[0].clientX:e.clientX;
+      return (cx-r.left)/r.width*100; }
+    cmp.addEventListener('mousemove',function(e){ setSplit(pos(e)); });
+    cmp.addEventListener('touchmove',function(e){ setSplit(pos(e)); },{passive:true});
+    setSplit(50);
+  }
 </script>
 </body>
 </html>
