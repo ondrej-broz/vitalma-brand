@@ -45,6 +45,8 @@
   #intro.go #bmLayer{ opacity:0; }
   #intro.go #loVA{ opacity:1; }
   #intro.go #loMid{ opacity:1; }
+  #intro.snap #bmV,#intro.snap #bmA,
+  #intro.snap #bmLayer,#intro.snap #loVA,#intro.snap #loMid{ transition:none!important; }
 
   .cue{position:absolute;bottom:28px;left:0;right:0;text-align:center;
     color:var(--cream);font:300 12px/1 var(--font);letter-spacing:.24em;
@@ -154,11 +156,13 @@
   /* intro animation */
   var introMark=document.getElementById('intro');
   function playIntro(){
-    introMark.classList.remove('go');
-    void introMark.offsetWidth;
+    introMark.classList.add('snap');    /* disable transitions */
+    introMark.classList.remove('go');   /* snap back to start */
+    void introMark.offsetWidth;         /* force reflow */
+    introMark.classList.remove('snap'); /* re-enable transitions */
     setTimeout(function(){ introMark.classList.add('go'); },60);
   }
-  setTimeout(function(){ playIntro(); setInterval(playIntro,5000); },650);
+  setTimeout(function(){ playIntro(); setInterval(playIntro,5000); },400);
 
   /* before / after comparison slider (follows the cursor) */
   var cmp=document.getElementById('cmp');
