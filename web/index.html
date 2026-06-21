@@ -153,7 +153,12 @@
 <script>
   /* intro animation */
   var introMark=document.getElementById('intro');
-  setTimeout(function(){ introMark.classList.add('go'); },650);
+  function playIntro(){
+    introMark.classList.remove('go');
+    void introMark.offsetWidth;
+    setTimeout(function(){ introMark.classList.add('go'); },60);
+  }
+  setTimeout(function(){ playIntro(); setInterval(playIntro,5000); },650);
 
   /* before / after comparison slider (follows the cursor) */
   var cmp=document.getElementById('cmp');
