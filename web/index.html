@@ -22,30 +22,29 @@
   }
 
   #mark{
-    width:min(660px,86vw);
+    width:min(760px,92vw);
     height:auto;
     overflow:visible;
     display:block;
   }
   #mark path, #mark rect, #mark circle{ fill:var(--cream); }
 
-  /* matrices are applied in raw user coordinates */
   #bmV,#bmA{ transform-origin:0 0; }
 
-  /* ---- START state = exact brandmark.svg (bold "VA", centred) ---- */
-  #bmV{ transform:matrix(0.2176,0,0,0.2176,268.27,-22); }
-  #bmA{ transform:matrix(0.2176,0,0,0.2176,268.27,-22); }
+  /* ---- START = exact brandmark.svg (bold "VA"), large & centred ---- */
+  #bmV{ transform:matrix(0.42,0,0,0.42,155.04,-82.46); }
+  #bmA{ transform:matrix(0.42,0,0,0.42,155.04,-82.46); }
   #bmLayer{ opacity:1; }
   #loVA{ opacity:0; }
   #loMid{ opacity:0; }
 
   /* ---- transitions ---- */
-  #bmV,#bmA{ transition:transform 1.5s cubic-bezier(.66,0,.2,1) .55s; }
-  #bmLayer{ transition:opacity .45s ease 2s; }      /* bold marks fade out … */
-  #loVA{ transition:opacity .45s ease 2s; }         /* … crossfade to thin V/A */
-  #loMid{ transition:opacity .8s ease 1.2s; }       /* middle letters appear */
+  #bmV,#bmA{ transition:transform 1.6s cubic-bezier(.66,0,.2,1) .6s; }
+  #bmLayer{ transition:opacity .5s ease 2.05s; }   /* bold marks fade out … */
+  #loVA{ transition:opacity .5s ease 2.05s; }      /* … crossfade to thin V/A */
+  #loMid{ transition:opacity .85s ease 1.3s; }     /* middle letters appear */
 
-  /* ---- END state = exact VITALMA wordmark ---- */
+  /* ---- END = exact VITALMA wordmark ---- */
   #mark.go #bmV{ transform:matrix(0.1443,0,0,0.1443,0,0); }
   #mark.go #bmA{ transform:matrix(0.1443,0,0,0.1443,618.657,0); }
   #mark.go #bmLayer{ opacity:0; }
@@ -62,9 +61,11 @@
 </head>
 <body>
 
-  <svg id="mark" viewBox="0 0 780.11 86.21" xmlns="http://www.w3.org/2000/svg" aria-label="Vitalma">
+  <svg id="mark" viewBox="0 0 780.11 320" xmlns="http://www.w3.org/2000/svg" aria-label="Vitalma">
+   <!-- vertical centering of the 86-tall wordmark band inside the 320 stage -->
+   <g transform="translate(0,116.9)">
 
-    <!-- thin wordmark V + A (hidden at start, crossfade in at the end) -->
+    <!-- thin wordmark V + A (crossfade in at the end) -->
     <g id="loVA">
       <path d="M7.16,0h0c2.63,0,5.05,1.44,6.29,3.75,8.53,15.9,22.45,47.24,31.41,65.66h.33c9.25-18.4,22.89-49.5,31.13-65.56C77.52,1.48,79.97,0,82.63,0h0c5.21,0,8.65,5.41,6.43,10.13l-32.1,68.42c-2.19,4.67-6.89,7.66-12.05,7.66h0c-5.16,0-9.85-2.98-12.05-7.65L.69,10.19C-1.54,5.45,1.92,0,7.16,0Z"/>
       <circle cx="44.85" cy="10.4" r="10"/>
@@ -92,6 +93,8 @@
         <circle cx="807.99" cy="528.13" r="69.3"/>
       </g>
     </g>
+
+   </g>
   </svg>
 
   <div class="hint">Klikněte pro přehrání</div>
@@ -103,7 +106,7 @@
     void mark.offsetWidth;            // restart transitions
     setTimeout(function(){mark.classList.add('go');},60);
   }
-  window.addEventListener('load',function(){ setTimeout(function(){mark.classList.add('go');},600); });
+  window.addEventListener('load',function(){ setTimeout(function(){mark.classList.add('go');},650); });
   document.body.addEventListener('click',play);
 </script>
 </body>
