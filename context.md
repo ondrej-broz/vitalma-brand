@@ -37,7 +37,7 @@ Tvorba **vizuální identity pro domov seniorů Vitalma** + **prezentační micr
 
 ## Co je placeholder / čeká na doplnění
 1. **Logo** ✅ DODÁNO (`SVG/logo.svg`, monochromatický krémový wordmark) a zapojené do prezentace přes CSS mask. Pozor: žádná modrá tečka — logo je jednobarevné.
-2. **V-symbol (brandmark)** — v sekci 03 zatím **crop wordmarku přes mask** (odhadnuté souřadnice). Ideálně dodat samostatné SVG symbolu.
+2. **Brandmark (V+V apex symbol)** ✅ DODÁN (`SVG/brandmark.svg`) a zapojen do sekce 03 Symbol přes CSS mask.
 3. **Claim** (text + finální font serifa/sans) — všude „Claim placeholder".
 4. **Texty** — koncept a popisky jsou návrh, k přepsání.
 5. **Credit** v závěru („eVisions").
@@ -45,8 +45,8 @@ Tvorba **vizuální identity pro domov seniorů Vitalma** + **prezentační micr
 ## Stav assetů
 - `SVG/pattern.svg` ✅ (+ kopie `web/pattern.svg`)
 - `SVG/logo.svg` ✅ (+ kopie `web/logo.svg`) — krémový wordmark, viewBox 780×155
-- `JPG/` mockupy (pattern, signage, logo), `psd/` zdrojové soubory
-- Samostatný V-symbol ❌ (zatím crop z wordmarku)
+- `SVG/brandmark.svg` ✅ (+ kopie `web/brandmark.svg`) — V+V apex symbol, krémový, viewBox 1119×597
+- `JPG/` mockupy (pattern, signage, logo), `psd/` zdrojové soubory (mimo git)
 
 ## Reference
 - Inspirace web: https://altrum-template.webflow.io/
