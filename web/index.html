@@ -158,9 +158,9 @@
   /* before / after comparison slider (follows the cursor) */
   var cmp=document.getElementById('cmp');
   if(cmp){
-    var top=cmp.querySelector('.top'), divider=cmp.querySelector('.divider');
+    var topImg=cmp.querySelector('.top'), divider=cmp.querySelector('.divider');
     function setSplit(x){ x=Math.max(0,Math.min(100,x));
-      top.style.clipPath='inset(0 '+(100-x).toFixed(2)+'% 0 0)';
+      topImg.style.clipPath='inset(0 '+(100-x).toFixed(2)+'% 0 0)';
       divider.style.left=x.toFixed(2)+'%'; }
     function posX(e){ var r=cmp.getBoundingClientRect();
       var cx=(e.touches&&e.touches[0])?e.touches[0].clientX:e.clientX;
