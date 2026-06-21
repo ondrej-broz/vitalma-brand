@@ -82,6 +82,28 @@
     border-radius:30px;pointer-events:none}
   .tag-l{left:18px}.tag-r{right:18px}
   .hint-sm{margin-top:16px;font-size:13px;color:var(--ink-soft);opacity:.8;font-weight:300}
+
+  /* ===== colour palette ===== */
+  .swatches{display:grid;grid-template-columns:repeat(4,1fr);gap:22px}
+  @media(max-width:860px){.swatches{grid-template-columns:repeat(2,1fr)}}
+  @media(max-width:480px){.swatches{grid-template-columns:1fr}}
+  .sw{border-radius:16px;overflow:hidden;box-shadow:0 18px 40px rgba(0,0,0,.10);
+    background:#fff;transition:transform .35s cubic-bezier(.2,.7,.2,1),box-shadow .35s}
+  .sw:hover{transform:translateY(-6px);box-shadow:0 30px 60px rgba(0,0,0,.16)}
+  .sw .chip{height:190px;display:flex;align-items:flex-end;padding:16px}
+  .sw .chip .role{font-size:11px;letter-spacing:.18em;text-transform:uppercase;font-weight:500;
+    padding:5px 11px;border-radius:30px;background:rgba(255,255,255,.16);backdrop-filter:blur(2px)}
+  .sw.light .chip .role{background:rgba(44,79,44,.10);color:var(--green-deep)}
+  .sw .meta{padding:18px 18px 22px}
+  .sw .meta .nm{font-weight:500;font-size:18px;color:var(--green-deep);margin-bottom:10px}
+  .sw .meta dl{display:flex;flex-direction:column;gap:5px}
+  .sw .meta .row{display:flex;justify-content:space-between;font-size:13px;font-weight:300;
+    color:var(--ink-soft);font-variant-numeric:tabular-nums}
+  .sw .meta .row b{font-weight:500;color:var(--green-deep);letter-spacing:.02em}
+  .ratio{margin-top:46px;display:flex;height:54px;border-radius:14px;overflow:hidden;
+    box-shadow:0 14px 34px rgba(0,0,0,.10)}
+  .ratio span{display:flex;align-items:center;justify-content:center;font-size:12px;
+    letter-spacing:.12em;font-weight:500}
 </style>
 </head>
 <body>
@@ -150,6 +172,70 @@
     <span class="tag tag-r">Světlá varianta</span>
    </div>
    <p class="hint-sm">↔ Přejeďte myší přes obrázek pro porovnání variant</p>
+  </div>
+ </section>
+
+ <!-- 4) COLOUR PALETTE -->
+ <section class="sec">
+  <div class="wrap">
+   <div class="sec-head"><span class="num">02</span> Barevnost <span class="line"></span></div>
+   <h2 class="title">Klid přírody v každém odstínu.</h2>
+   <p class="lead">Paleta vychází z tlumené zeleně a teplé krémové — barvy domova, péče a důvěry. Sytá zelená nese identitu, krémová dává prostor dýchat, hluboká zelená kotví text a detaily.</p>
+
+   <div class="swatches">
+    <div class="sw">
+     <div class="chip" style="background:#4a7a4a"><span class="role" style="color:#f5edd8">Primární</span></div>
+     <div class="meta">
+      <div class="nm">Vitalma zelená</div>
+      <dl>
+       <div class="row"><span>HEX</span><b>#4A7A4A</b></div>
+       <div class="row"><span>RGB</span><b>74 · 122 · 74</b></div>
+       <div class="row"><span>CMYK</span><b>39 0 39 52</b></div>
+      </dl>
+     </div>
+    </div>
+    <div class="sw">
+     <div class="chip" style="background:#2c4f2c"><span class="role" style="color:#f5edd8">Text / detail</span></div>
+     <div class="meta">
+      <div class="nm">Hluboká zeleň</div>
+      <dl>
+       <div class="row"><span>HEX</span><b>#2C4F2C</b></div>
+       <div class="row"><span>RGB</span><b>44 · 79 · 44</b></div>
+       <div class="row"><span>CMYK</span><b>44 0 44 69</b></div>
+      </dl>
+     </div>
+    </div>
+    <div class="sw light">
+     <div class="chip" style="background:#f5edd8"><span class="role">Podklad</span></div>
+     <div class="meta">
+      <div class="nm">Krémová</div>
+      <dl>
+       <div class="row"><span>HEX</span><b>#F5EDD8</b></div>
+       <div class="row"><span>RGB</span><b>245 · 237 · 216</b></div>
+       <div class="row"><span>CMYK</span><b>0 3 12 4</b></div>
+      </dl>
+     </div>
+    </div>
+    <div class="sw">
+     <div class="chip" style="background:#4d614d"><span class="role" style="color:#f5edd8">Doplňková</span></div>
+     <div class="meta">
+      <div class="nm">Šalvějová</div>
+      <dl>
+       <div class="row"><span>HEX</span><b>#4D614D</b></div>
+       <div class="row"><span>RGB</span><b>77 · 97 · 77</b></div>
+       <div class="row"><span>CMYK</span><b>21 0 21 62</b></div>
+      </dl>
+     </div>
+    </div>
+   </div>
+
+   <div class="ratio">
+    <span style="flex:6;background:#4a7a4a;color:#f5edd8">60 %</span>
+    <span style="flex:3;background:#f5edd8;color:#2c4f2c">30 %</span>
+    <span style="flex:.7;background:#2c4f2c;color:#f5edd8">7</span>
+    <span style="flex:.3;background:#4d614d;color:#f5edd8">3</span>
+   </div>
+   <p class="hint-sm">Doporučený poměr nasazení — zelená dominuje, krémová odlehčuje, tmavé tóny akcentují.</p>
   </div>
  </section>
 
