@@ -13,7 +13,7 @@
   .stage{position:relative;width:min(80vw,880px);height:54vh;min-height:260px;
     display:flex;align-items:center;justify-content:center}
 
-  /* every layer centred and HIDDEN until it is its turn (no overlap, ever) */
+  /* every layer centred and HIDDEN until its turn — never overlap */
   #intro,.glyph{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
     fill:var(--cream);display:block;visibility:hidden}
   #intro.show,.glyph.show{visibility:visible}
@@ -24,24 +24,31 @@
   #intro{height:min(50vh,320px);width:auto}
   .word{height:min(13.44vh,86px);width:auto}
 
-  /* ===== VITALMA: brandmark opens into wordmark (original hero animation) ===== */
-  #intro{clip-path:inset(0 0 0 0);transition:clip-path .6s cubic-bezier(.65,0,.2,1)}
-  #intro.out{clip-path:inset(0 0 0 100%)}            /* wipe VITALMA away L→R */
+  /* ===== VITALMA ⇆ brandmark (clip-path driven inline; morph driven by classes) ===== */
   #bmV,#bmA{transform-origin:0 0}
   #bmV{transform:matrix(0.42,0,0,0.42,155.04,-82.46)}
   #bmA{transform:matrix(0.42,0,0,0.42,155.04,-82.46)}
   #bmLayer{opacity:1} #loVA{opacity:0} #loMid{opacity:0}
-  #bmV,#bmA{transition:transform 1.6s cubic-bezier(.66,0,.2,1) .6s}
-  #bmLayer{transition:opacity .45s ease 2.0s}
-  #loVA{transition:opacity .45s ease 2.0s}
-  #loMid{transition:opacity .8s ease 1.35s}
+
+  /* OPEN: brandmark → VITALMA */
+  #intro.go #bmV,#intro.go #bmA{transition:transform 1.6s cubic-bezier(.66,0,.2,1) .6s}
+  #intro.go #bmLayer{transition:opacity .45s ease 2.0s}
+  #intro.go #loVA{transition:opacity .45s ease 2.0s}
+  #intro.go #loMid{transition:opacity .8s ease 1.35s}
   #intro.go #bmV{transform:matrix(0.1443,0,0,0.1443,0,0)}
   #intro.go #bmA{transform:matrix(0.1443,0,0,0.1443,618.657,0)}
   #intro.go #bmLayer{opacity:0}
   #intro.go #loVA{opacity:1}
   #intro.go #loMid{opacity:1}
+
+  /* CLOSE: VITALMA → brandmark (reverse, retimed so the mark re-appears as halves merge) */
+  #intro.close #bmV,#intro.close #bmA{transition:transform 1.5s cubic-bezier(.5,0,.25,1) .15s}
+  #intro.close #bmLayer{transition:opacity .5s ease 1.25s}
+  #intro.close #loVA{transition:opacity .4s ease .05s}
+  #intro.close #loMid{transition:opacity .5s ease 0s}
+  /* .close WITHOUT .go ⇒ values fall back to the brandmark defaults above */
+
   #intro.snap *{transition:none!important}
-  #intro.snap{transition:none!important}
 
   /* ===== other names: clean draw wipe, one at a time ===== */
   .glyph{clip-path:inset(0 100% 0 0);transition:clip-path var(--dur,.9s) cubic-bezier(.65,0,.2,1)}
@@ -90,51 +97,75 @@
   function wait(ms){return new Promise(function(r){setTimeout(r,ms)})}
   function reflow(el){void el.offsetWidth}
 
-  function hideAll(){
-    intro.classList.remove('show','go','out');
-    words.forEach(function(w){ w.classList.remove('show','draw','wipe'); });
-  }
-
-  async function brandmarkBeat(holdMs){
-    hideAll();
-    intro.classList.add('snap');          /* no transitions while we reset */
-    intro.classList.remove('go','out');   /* => brandmark state */
+  /* snap intro to the pure brandmark state, fully visible */
+  function setBrandmark(){
+    intro.classList.add('snap');
+    intro.classList.remove('go','close');
+    intro.style.transition='none';
     intro.style.clipPath='inset(0 0 0 0)';
     intro.classList.add('show');
     reflow(intro);
     intro.classList.remove('snap');
-    await wait(holdMs);                    /* hold the brandmark */
-  }
-
-  async function openVitalma(){
-    intro.classList.add('go');             /* brandmark opens ≈2.6s */
-    await wait(2600 + 1100);               /* open + hold full word */
-    intro.style.clipPath='';               /* let class drive it */
-    intro.classList.add('out');            /* wipe VITALMA away */
-    await wait(620);
-    intro.classList.remove('show');        /* gone */
+    intro.style.transition='';
   }
 
   async function drawName(w){
-    w.classList.add('snap');               /* reset hidden, no transition */
+    w.classList.add('snap');
     w.classList.remove('draw','wipe');
     w.classList.add('show');
     reflow(w);
     w.classList.remove('snap');
     w.style.setProperty('--dur','900ms');
-    w.classList.add('draw');               /* draw L→R */
+    w.classList.add('draw');                 /* draw L→R */
     await wait(900 + 1050);
     w.style.setProperty('--dur','620ms');
-    w.classList.add('wipe');               /* erase L→R */
+    w.classList.add('wipe');                 /* erase L→R */
     await wait(640);
     w.classList.remove('show','draw','wipe');
   }
 
+  /* VITALMA reappears (drawn L→R), held briefly */
+  async function vitalmaIn(){
+    intro.classList.add('snap');
+    intro.classList.remove('close');
+    intro.classList.add('go');               /* full VITALMA, no transition */
+    intro.style.transition='none';
+    intro.style.clipPath='inset(0 100% 0 0)';/* hidden, ready to draw in */
+    intro.classList.add('show');
+    reflow(intro);
+    intro.classList.remove('snap');
+    intro.style.transition='clip-path .85s cubic-bezier(.65,0,.2,1)';
+    intro.style.clipPath='inset(0 0 0 0)';   /* draw in */
+    await wait(850 + 550);
+  }
+
+  /* VITALMA folds back into the brandmark (reverse of the open) */
+  async function collapseToBrandmark(){
+    intro.style.transition='';               /* clip stays put; morph via .close */
+    intro.style.clipPath='inset(0 0 0 0)';
+    intro.classList.add('close');
+    reflow(intro);
+    intro.classList.remove('go');            /* → brandmark */
+    await wait(1750);
+    intro.classList.remove('close');         /* now in brandmark state == start */
+  }
+
   async function loop(){
+    setBrandmark();                          /* ◀ STARTING SCREEN = brandmark */
     while(true){
-      await brandmarkBeat(750);            /* ◀ start & END of every cycle: brandmark */
-      await openVitalma();                 /* VITALMA grows out of it */
-      for(var i=0;i<words.length;i++) await drawName(words[i]);  /* the other 3 */
+      await wait(800);                       /* hold brandmark */
+      intro.classList.add('go');             /* brandmark → VITALMA */
+      await wait(2600 + 1100);               /* open + hold */
+      intro.style.transition='clip-path .6s cubic-bezier(.65,0,.2,1)';
+      intro.style.clipPath='inset(0 0 0 100%)';   /* wipe VITALMA away */
+      await wait(620);
+      intro.classList.remove('show','go');
+      intro.style.transition='none'; intro.style.clipPath='inset(0 0 0 0)';
+
+      for(var i=0;i<words.length;i++) await drawName(words[i]);  /* VITALIA · VITÁLIE · ALTEVITA */
+
+      await vitalmaIn();                     /* VITALMA comes back … */
+      await collapseToBrandmark();           /* … and folds into the brandmark (ENDING = STARTING) */
     }
   }
   loop();
