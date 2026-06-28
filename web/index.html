@@ -3,309 +3,273 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Vitalma — návrh vizuální identity</title>
+<title>Vitalma — vizuální identita</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Outfit:wght@200;300;400;500;600&family=Fredoka:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
   :root{
     --green:#4a7a4a;
-    --green-dark:#376337;
     --green-deep:#2c4f2c;
     --cream:#f5edd8;
-    --cream-soft:#faf6ea;
-    --accent:#6fa8c7;       /* modrá tečka — placeholder, doladíme */
-    --ink:#243524;
     --ink-soft:#4d614d;
-    --serif:'Marcellus',Georgia,serif;
-    --sans:'Outfit',system-ui,sans-serif;
-    --round:'Fredoka',var(--sans);
-    --maxw:1180px;
+    /* whole brand uses Area; Outfit is the closest free fallback until Area*.woff2 is embedded */
+    --font:'Area Normal','Area','Outfit',system-ui,sans-serif;
   }
   *{box-sizing:border-box;margin:0;padding:0}
   html{scroll-behavior:smooth}
-  body{font-family:var(--sans);color:var(--ink);background:var(--cream);font-weight:300;font-size:18px;line-height:1.7;-webkit-font-smoothing:antialiased}
-  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 32px}
-  section{position:relative}
+  body{background:var(--cream);font-family:var(--font);color:var(--green-deep)}
 
-  /* ---------- topbar ---------- */
-  .topbar{position:fixed;top:0;left:0;right:0;z-index:50;display:flex;align-items:center;justify-content:space-between;
-    padding:18px 32px;mix-blend-mode:difference;color:#fff}
-  .topbar .mk{font-family:var(--round);font-weight:500;letter-spacing:.22em;font-size:15px}
-  .topbar .meta{font-family:var(--sans);font-weight:400;letter-spacing:.18em;font-size:12px;text-transform:uppercase;opacity:.9}
+  /* ===== full-height panels (plain normal flow) ===== */
+  .panel{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:40px}
+  .panel.green{background:var(--green)}
+  .panel.cream{background:var(--cream)}
 
-  /* ---------- hero ---------- */
-  .hero{min-height:100vh;background:var(--green);color:var(--cream);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;overflow:hidden}
-  .hero .pattern-bg{position:absolute;inset:0;background:url('pattern.svg') center/cover no-repeat;opacity:.10;mix-blend-mode:multiply}
-  .hero-content{position:relative;z-index:2;padding:0 24px}
-  .hero .kicker{font-weight:300;letter-spacing:.4em;text-transform:uppercase;font-size:13px;opacity:.85;margin-bottom:36px}
-  .wordmark-ph{font-family:var(--round);font-weight:500;letter-spacing:.18em;font-size:clamp(48px,11vw,128px);line-height:1;color:var(--cream)}
-  .wordmark-ph .dot{color:var(--accent)}
-  .hero .claim{font-family:var(--serif);letter-spacing:.34em;text-transform:uppercase;font-size:clamp(14px,2.2vw,22px);margin-top:22px;opacity:.92}
-  .hero .sub{margin-top:44px;font-weight:300;font-size:15px;letter-spacing:.05em;opacity:.8}
-  .ph-note{display:inline-block;margin-top:10px;font-size:11px;letter-spacing:.15em;text-transform:uppercase;border:1px solid rgba(245,237,216,.35);border-radius:40px;padding:5px 14px;opacity:.7}
-  .scroll-cue{position:absolute;bottom:30px;left:50%;transform:translateX(-50%);z-index:2;font-size:12px;letter-spacing:.25em;text-transform:uppercase;opacity:.7;color:var(--cream)}
+  .wmark{width:min(720px,88vw);height:auto;overflow:visible;display:block}
+  .green .wmark path,.green .wmark rect,.green .wmark circle{fill:var(--cream)}
+  .cream .wmark path,.cream .wmark rect,.cream .wmark circle{fill:var(--green)}
 
-  /* ---------- section frame ---------- */
-  .band{padding:120px 0}
-  .band.cream{background:var(--cream)}
-  .band.creamsoft{background:var(--cream-soft)}
-  .band.green{background:var(--green);color:var(--cream)}
-  .band.deep{background:var(--green-deep);color:var(--cream)}
-  .sec-label{display:flex;align-items:center;gap:14px;font-weight:400;letter-spacing:.28em;text-transform:uppercase;font-size:13px;color:var(--ink-soft);margin-bottom:28px}
-  .band.green .sec-label,.band.deep .sec-label{color:rgba(245,237,216,.75)}
-  .sec-label .num{font-family:var(--serif);font-size:15px}
-  .sec-label .line{height:1px;flex:1;background:currentColor;opacity:.25;max-width:80px}
-  h2.head{font-family:var(--serif);font-weight:400;font-size:clamp(30px,5vw,56px);line-height:1.12;letter-spacing:.01em;margin-bottom:24px}
-  .lead{font-size:clamp(18px,2.4vw,22px);font-weight:300;max-width:60ch;color:var(--ink-soft)}
-  .band.green .lead,.band.deep .lead{color:rgba(245,237,216,.85)}
+  /* intro animation (hero only) */
+  #intro{ transition:opacity .45s ease; }
+  #bmV,#bmA{ transform-origin:0 0; }
+  #bmV{ transform:matrix(0.42,0,0,0.42,155.04,-82.46); }
+  #bmA{ transform:matrix(0.42,0,0,0.42,155.04,-82.46); }
+  #bmLayer{ opacity:1; }
+  #loVA{ opacity:0; }
+  #loMid{ opacity:0; }
+  #bmV,#bmA{ transition:transform 1.6s cubic-bezier(.66,0,.2,1) .6s; }
+  #bmLayer{ transition:opacity .5s ease 2.05s; }
+  #loVA{ transition:opacity .5s ease 2.05s; }
+  #loMid{ transition:opacity .85s ease 1.3s; }
+  #intro.go #bmV{ transform:matrix(0.1443,0,0,0.1443,0,0); }
+  #intro.go #bmA{ transform:matrix(0.1443,0,0,0.1443,618.657,0); }
+  #intro.go #bmLayer{ opacity:0; }
+  #intro.go #loVA{ opacity:1; }
+  #intro.go #loMid{ opacity:1; }
+  #intro.snap #bmV,#intro.snap #bmA,
+  #intro.snap #bmLayer,#intro.snap #loVA,#intro.snap #loMid{ transition:none!important; }
 
-  /* feelings */
-  .feelings{display:flex;flex-wrap:wrap;gap:12px;margin-top:48px}
-  .feelings span{font-family:var(--serif);font-size:18px;letter-spacing:.04em;padding:12px 26px;border:1px solid rgba(74,122,74,.3);border-radius:50px;color:var(--green)}
+  .cue{position:absolute;bottom:28px;left:0;right:0;text-align:center;
+    color:var(--cream);font:300 12px/1 var(--font);letter-spacing:.24em;
+    text-transform:uppercase;opacity:.55;pointer-events:none}
+  .cue .arrow{display:block;font-size:18px;margin-top:8px;animation:bob 1.8s ease-in-out infinite}
+  @keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(6px)}}
 
-  /* logo showcase */
-  .logo-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:48px}
-  .logo-card{border-radius:18px;padding:80px 40px;display:flex;align-items:center;justify-content:center;min-height:280px}
-  .logo-card.on-cream{background:var(--cream-soft);border:1px solid rgba(74,122,74,.18)}
-  .logo-card.on-green{background:var(--green)}
-  .lc-mark{font-family:var(--round);font-weight:500;letter-spacing:.16em;font-size:clamp(34px,5vw,58px)}
-  .on-cream .lc-mark{color:var(--green)} .on-cream .lc-mark .dot{color:var(--accent)}
-  .on-green .lc-mark{color:var(--cream)} .on-green .lc-mark .dot{color:var(--accent)}
-  .anatomy{display:grid;grid-template-columns:repeat(3,1fr);gap:30px;margin-top:60px}
-  .anatomy .item h4{font-family:var(--serif);font-size:20px;font-weight:400;margin-bottom:8px}
-  .anatomy .item p{font-size:15px;color:var(--ink-soft)}
-  .band.green .anatomy .item p{color:rgba(245,237,216,.8)}
+  /* ===== content section ===== */
+  .sec{background:var(--cream);padding:clamp(70px,10vh,120px) 0}
+  .wrap{max-width:1200px;margin:0 auto;padding:0 32px}
+  .sec-head{display:flex;align-items:center;gap:12px;font-weight:400;letter-spacing:.28em;
+    text-transform:uppercase;font-size:13px;color:var(--ink-soft);margin-bottom:22px}
+  .sec-head .num{font-family:var(--font);font-weight:600;font-size:15px}
+  .sec-head .line{height:1px;flex:1;max-width:70px;background:currentColor;opacity:.3}
+  h2.title{font-family:var(--font);font-weight:500;font-size:clamp(30px,5vw,54px);
+    line-height:1.12;letter-spacing:-.01em;color:var(--green-deep);margin-bottom:18px}
+  .lead{font-weight:300;font-size:clamp(17px,2.2vw,21px);max-width:62ch;color:var(--ink-soft);margin-bottom:44px}
 
-  /* symbol */
-  .symbol-row{display:flex;align-items:center;gap:60px;flex-wrap:wrap;margin-top:48px}
-  .symbol-badge{width:200px;height:200px;border-radius:50%;background:var(--cream);display:flex;align-items:center;justify-content:center;flex-shrink:0}
-  .symbol-badge .v{font-family:var(--round);font-weight:600;font-size:96px;color:var(--green);position:relative;line-height:1}
-  .symbol-badge .v::after{content:'';position:absolute;top:-6px;left:50%;transform:translateX(-50%);width:16px;height:16px;border-radius:50%;background:var(--accent)}
+  .compare{position:relative;width:100%;aspect-ratio:1582/994;border-radius:16px;overflow:hidden;
+    cursor:ew-resize;user-select:none;box-shadow:0 30px 60px rgba(0,0,0,.18);background:#243524}
+  .compare img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;
+    pointer-events:none;-webkit-user-drag:none}
+  .compare .top{clip-path:inset(0 50% 0 0)}
+  .compare .divider{position:absolute;top:0;bottom:0;left:50%;width:2px;background:var(--cream);
+    box-shadow:0 0 0 1px rgba(0,0,0,.12);pointer-events:none}
+  .compare .knob{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+    width:50px;height:50px;border-radius:50%;background:var(--cream);color:var(--green);
+    display:flex;align-items:center;justify-content:center;font-size:16px;letter-spacing:-1px;
+    box-shadow:0 6px 18px rgba(0,0,0,.28)}
+  .tag{position:absolute;bottom:18px;font-weight:400;font-size:11px;letter-spacing:.18em;
+    text-transform:uppercase;color:#fff;background:rgba(20,30,20,.34);padding:7px 13px;
+    border-radius:30px;pointer-events:none}
+  .tag-l{left:18px}.tag-r{right:18px}
+  .hint-sm{margin-top:16px;font-size:13px;color:var(--ink-soft);opacity:.8;font-weight:300}
 
-  /* colors */
-  .swatches{display:grid;grid-template-columns:repeat(4,1fr);gap:0;margin-top:48px;border-radius:18px;overflow:hidden}
-  .sw{padding:40px 26px;min-height:240px;display:flex;flex-direction:column;justify-content:flex-end}
-  .sw .name{font-family:var(--serif);font-size:20px;margin-bottom:4px}
-  .sw .hex{font-family:var(--sans);font-weight:400;letter-spacing:.1em;font-size:14px;text-transform:uppercase}
-  .sw .role{font-size:13px;margin-top:10px;opacity:.7}
-
-  /* typography */
-  .type-block{margin-top:48px;border-top:1px solid rgba(74,122,74,.2);padding-top:34px}
-  .band.green .type-block,.band.deep .type-block{border-color:rgba(245,237,216,.25)}
-  .type-block .role{font-weight:400;letter-spacing:.2em;text-transform:uppercase;font-size:12px;color:var(--ink-soft);margin-bottom:18px}
-  .band.green .type-block .role{color:rgba(245,237,216,.7)}
-  .spec-serif{font-family:var(--serif);font-size:clamp(34px,6vw,72px);line-height:1.1}
-  .spec-sans{font-family:var(--sans);font-weight:300;font-size:clamp(22px,3vw,32px)}
-  .spec-round{font-family:var(--round);font-weight:500;letter-spacing:.14em;font-size:clamp(34px,6vw,68px)}
-  .glyphs{font-family:var(--serif);font-size:22px;letter-spacing:.12em;margin-top:14px;color:var(--ink-soft)}
-
-  /* pattern */
-  .pattern-show{margin-top:48px;border-radius:18px;overflow:hidden;background:var(--green);aspect-ratio:1920/700}
-  .pattern-show img{width:100%;height:100%;object-fit:cover;display:block}
-
-  /* applications */
-  .apps{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;margin-top:48px;align-items:start}
-  .app{display:flex;flex-direction:column;gap:14px}
-  .app .cap{font-weight:400;letter-spacing:.18em;text-transform:uppercase;font-size:12px;color:rgba(245,237,216,.7)}
-  .paper{background:#fff;border-radius:8px;aspect-ratio:1/1.414;padding:22px;display:flex;flex-direction:column;box-shadow:0 24px 50px rgba(0,0,0,.22);color:var(--ink)}
-  .paper .ph-mark{font-family:var(--round);font-weight:500;letter-spacing:.14em;color:var(--green);font-size:20px}
-  .paper .ph-mark .dot{color:var(--accent)}
-  .paper .strip{height:6px;border-radius:4px;background:var(--green);margin:14px 0;opacity:.9}
-  .paper .doc-title{font-family:var(--serif);font-size:13px;margin:10px 0 8px}
-  .lines{display:flex;flex-direction:column;gap:7px;margin-top:6px}
-  .lines i{display:block;height:5px;border-radius:3px;background:rgba(36,53,36,.14)}
-  .lines i.s{width:55%} .lines i.m{width:80%} .lines i.l{width:96%}
-  .paper .foot{margin-top:auto;display:flex;align-items:center;gap:8px;font-size:8px;letter-spacing:.1em;color:var(--ink-soft);text-transform:uppercase}
-  .paper .foot .pat{flex:1;height:14px;background:url('pattern.svg') left center/auto 28px repeat-x;opacity:.55}
-  .post{aspect-ratio:1/1;border-radius:8px;background:var(--green);position:relative;overflow:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;box-shadow:0 24px 50px rgba(0,0,0,.22)}
-  .post .pat{position:absolute;inset:0;background:url('pattern.svg') center/cover;opacity:.12}
-  .post .pmark{position:relative;font-family:var(--round);font-weight:500;letter-spacing:.16em;color:var(--cream);font-size:30px}
-  .post .pmark .dot{color:var(--accent)}
-  .post .pclaim{position:relative;font-family:var(--serif);letter-spacing:.28em;text-transform:uppercase;font-size:11px;color:rgba(245,237,216,.9);margin-top:10px}
-
-  /* closing */
-  .closing{background:var(--green-deep);color:var(--cream);text-align:center;padding:140px 0 80px;position:relative;overflow:hidden}
-  .closing .pat{position:absolute;inset:0;background:url('pattern.svg') center/cover;opacity:.08}
-  .closing .cmark{position:relative;font-family:var(--round);font-weight:500;letter-spacing:.18em;font-size:clamp(40px,8vw,84px);color:var(--cream)}
-  .closing .cmark .dot{color:var(--accent)}
-  .closing .cclaim{position:relative;font-family:var(--serif);letter-spacing:.32em;text-transform:uppercase;font-size:14px;opacity:.9;margin-top:18px}
-  .closing .credit{position:relative;margin-top:70px;font-size:13px;letter-spacing:.12em;opacity:.65;text-transform:uppercase}
-
-  /* ---------- real logo via mask ---------- */
-  .logomark{display:block;background-color:var(--cream);-webkit-mask:url('logo.svg') center/contain no-repeat;mask:url('logo.svg') center/contain no-repeat}
-  .lm-green{background-color:var(--green)} .lm-cream{background-color:var(--cream)} .lm-deep{background-color:var(--green-deep)}
-  .hero-logo{width:min(660px,82vw);aspect-ratio:780/155;margin:0 auto}
-  .lc-logo{width:min(72%,360px);aspect-ratio:780/155}
-  .spec-logo{width:min(420px,80%);aspect-ratio:780/155}
-  .pm-paper{width:78px;aspect-ratio:780/155}
-  .pm-post{width:150px;aspect-ratio:780/155}
-  .cm-close{width:min(520px,82vw);aspect-ratio:780/155;margin:0 auto}
-  .vmark{width:66%;aspect-ratio:1118.84/597.44;-webkit-mask:url('brandmark.svg') center/contain no-repeat;mask:url('brandmark.svg') center/contain no-repeat}
-
-  @media(max-width:820px){
-    .logo-grid,.swatches,.apps,.anatomy{grid-template-columns:1fr}
-    .anatomy{gap:22px}
-    .band{padding:80px 0}
-    .topbar .meta{display:none}
-  }
+  /* ===== colour palette ===== */
+  .swatches{display:grid;grid-template-columns:repeat(4,1fr);gap:22px}
+  @media(max-width:860px){.swatches{grid-template-columns:repeat(2,1fr)}}
+  @media(max-width:480px){.swatches{grid-template-columns:1fr}}
+  .sw{border-radius:16px;overflow:hidden;box-shadow:0 18px 40px rgba(0,0,0,.10);
+    background:#fff;transition:transform .35s cubic-bezier(.2,.7,.2,1),box-shadow .35s}
+  .sw:hover{transform:translateY(-6px);box-shadow:0 30px 60px rgba(0,0,0,.16)}
+  .sw .chip{height:190px;display:flex;align-items:flex-end;padding:16px}
+  .sw .chip .role{font-size:11px;letter-spacing:.18em;text-transform:uppercase;font-weight:500;
+    padding:5px 11px;border-radius:30px;background:rgba(255,255,255,.16);backdrop-filter:blur(2px)}
+  .sw.light .chip .role{background:rgba(44,79,44,.10);color:var(--green-deep)}
+  .sw .meta{padding:18px 18px 22px}
+  .sw .meta .nm{font-weight:500;font-size:18px;color:var(--green-deep);margin-bottom:10px}
+  .sw .meta dl{display:flex;flex-direction:column;gap:5px}
+  .sw .meta .row{display:flex;justify-content:space-between;font-size:13px;font-weight:300;
+    color:var(--ink-soft);font-variant-numeric:tabular-nums}
+  .sw .meta .row b{font-weight:500;color:var(--green-deep);letter-spacing:.02em}
+  .ratio{margin-top:46px;display:flex;height:54px;border-radius:14px;overflow:hidden;
+    box-shadow:0 14px 34px rgba(0,0,0,.10)}
+  .ratio span{display:flex;align-items:center;justify-content:center;font-size:12px;
+    letter-spacing:.12em;font-weight:500}
 </style>
 </head>
 <body>
 
-  <div class="topbar">
-    <div class="mk">VITALMA</div>
-    <div class="meta">Návrh vizuální identity · 2025</div>
+ <!-- 1) HERO: green + cream logo (with intro animation) -->
+ <section class="panel green" style="position:relative">
+  <svg class="wmark" id="intro" viewBox="0 0 780.11 320" xmlns="http://www.w3.org/2000/svg" aria-label="Vitalma">
+   <g transform="translate(0,116.9)">
+    <g id="loVA">
+      <path d="M7.16,0h0c2.63,0,5.05,1.44,6.29,3.75,8.53,15.9,22.45,47.24,31.41,65.66h.33c9.25-18.4,22.89-49.5,31.13-65.56C77.52,1.48,79.97,0,82.63,0h0c5.21,0,8.65,5.41,6.43,10.13l-32.1,68.42c-2.19,4.67-6.89,7.66-12.05,7.66h0c-5.16,0-9.85-2.98-12.05-7.65L.69,10.19C-1.54,5.45,1.92,0,7.16,0Z"/>
+      <circle cx="44.85" cy="10.4" r="10"/>
+      <path d="M772.95,86.21h0c-2.63,0-5.05-1.44-6.29-3.75-8.53-15.9-22.45-47.24-31.41-65.66h-.33c-9.25,18.4-22.89,49.5-31.13,65.56-1.21,2.37-3.66,3.85-6.32,3.85h0c-5.21,0-8.65-5.41-6.43-10.13l32.1-68.42C725.34,2.98,730.04,0,735.2,0h0c5.16,0,9.85,2.98,12.05,7.65l32.17,68.37c2.23,4.74-1.23,10.19-6.47,10.19Z"/>
+      <circle cx="735.25" cy="76.21" r="10"/>
+    </g>
+    <g id="loMid">
+      <rect x="134.92" y="0" width="14.7" height="86.21" rx="7.35" ry="7.35"/>
+      <path d="M191.51,6.41h0C191.51,2.87,194.38,0,197.92,0h68.19c3.54,0,6.41,2.87,6.41,6.41h0c0,3.54-2.87,6.41-6.41,6.41h-26.86v66.09c0,4.03-3.27,7.29-7.29,7.29h0c-4.03,0-7.29-3.27-7.29-7.29V12.82h-26.75c-3.54,0-6.41-2.87-6.41-6.41Z"/>
+      <path d="M377.74,86.21h0c-2.63,0-5.05-1.44-6.29-3.75-8.53-15.9-22.45-47.24-31.41-65.66h-.33c-9.25,18.4-22.89,49.5-31.13,65.56-1.21,2.37-3.66,3.85-6.32,3.85h0c-5.21,0-8.65-5.41-6.43-10.13L327.94,7.66C330.13,2.98,334.83,0,339.99,0h0c5.16,0,9.85,2.98,12.05,7.65l32.17,68.37c2.23,4.74-1.23,10.19-6.47,10.19Z"/>
+      <path d="M437.46,0h0c4.06,0,7.35,3.29,7.35,7.35v65.92h42.72c3.57,0,6.47,2.89,6.47,6.47h0c0,3.57-2.89,6.47-6.47,6.47h-49.49c-4.38,0-7.93-3.55-7.93-7.93V7.35C430.11,3.29,433.41,0,437.46,0Z"/>
+      <path d="M547.2,0h0c4.13,0,7.95,2.23,9.97,5.84,11.06,19.71,22.13,39.42,33.19,59.04h.22c11.17-19.62,22.24-39.32,33.31-59.04C625.92,2.23,629.73,0,633.86,0h0c6.31,0,11.43,5.12,11.43,11.43v67.31c0,4.12-3.34,7.46-7.46,7.46h0c-4.12,0-7.46-3.34-7.46-7.46V26.19h-.44l-30.87,54.96c-1.75,3.12-5.05,5.05-8.63,5.05h0c-3.59,0-6.89-1.94-8.64-5.07-10.22-18.31-20.45-36.62-30.77-54.94h-.33v52.55c0,4.12-3.34,7.46-7.46,7.46h0c-4.12,0-7.46-3.34-7.46-7.46V11.43C535.77,5.12,540.89,0,547.2,0Z"/>
+    </g>
+    <g id="bmLayer">
+      <g id="bmV">
+        <path d="M49.6,0h0c18.21,0,34.98,9.95,43.59,25.99,59.15,110.18,155.6,327.39,217.65,455.02h2.29c64.1-127.49,158.64-343.06,215.72-454.34C537.28,10.26,554.2,0,572.64,0h0c36.08,0,59.92,37.52,44.59,70.18l-222.5,474.18c-15.2,32.39-47.75,53.08-83.53,53.08h0c-35.74,0-68.27-20.64-83.49-52.99L4.77,70.64C-10.69,37.78,13.29,0,49.6,0Z"/>
+        <circle cx="310.85" cy="72.05" r="69.3"/>
+      </g>
+      <g id="bmA">
+        <path d="M1069.24,597.44h0c-18.21,0-34.98-9.95-43.59-26-59.15-110.18-155.6-327.39-217.65-455.02h-2.29c-64.1,127.49-158.64,343.06-215.72,454.34-8.42,16.41-25.34,26.67-43.78,26.67h0c-36.08,0-59.92-37.52-44.59-70.18L724.11,53.08C739.31,20.68,771.86,0,807.64,0h0C843.39,0,875.92,20.64,891.13,52.99l222.93,473.81c15.46,32.86-8.51,70.64-44.83,70.64Z"/>
+        <circle cx="807.99" cy="528.13" r="69.3"/>
+      </g>
+    </g>
+   </g>
+  </svg>
+  <div class="cue">Scrollujte<span class="arrow">↓</span></div>
+ </section>
+
+ <!-- 2) REVERSE: cream + green logo -->
+ <section class="panel cream">
+  <svg class="wmark" viewBox="0 0 780.11 320" xmlns="http://www.w3.org/2000/svg" aria-label="Vitalma">
+   <g transform="translate(0,116.9)">
+    <path d="M7.16,0h0c2.63,0,5.05,1.44,6.29,3.75,8.53,15.9,22.45,47.24,31.41,65.66h.33c9.25-18.4,22.89-49.5,31.13-65.56C77.52,1.48,79.97,0,82.63,0h0c5.21,0,8.65,5.41,6.43,10.13l-32.1,68.42c-2.19,4.67-6.89,7.66-12.05,7.66h0c-5.16,0-9.85-2.98-12.05-7.65L.69,10.19C-1.54,5.45,1.92,0,7.16,0Z"/>
+    <circle cx="44.85" cy="10.4" r="10"/>
+    <rect x="134.92" y="0" width="14.7" height="86.21" rx="7.35" ry="7.35"/>
+    <path d="M191.51,6.41h0C191.51,2.87,194.38,0,197.92,0h68.19c3.54,0,6.41,2.87,6.41,6.41h0c0,3.54-2.87,6.41-6.41,6.41h-26.86v66.09c0,4.03-3.27,7.29-7.29,7.29h0c-4.03,0-7.29-3.27-7.29-7.29V12.82h-26.75c-3.54,0-6.41-2.87-6.41-6.41Z"/>
+    <path d="M377.74,86.21h0c-2.63,0-5.05-1.44-6.29-3.75-8.53-15.9-22.45-47.24-31.41-65.66h-.33c-9.25,18.4-22.89,49.5-31.13,65.56-1.21,2.37-3.66,3.85-6.32,3.85h0c-5.21,0-8.65-5.41-6.43-10.13L327.94,7.66C330.13,2.98,334.83,0,339.99,0h0c5.16,0,9.85,2.98,12.05,7.65l32.17,68.37c2.23,4.74-1.23,10.19-6.47,10.19Z"/>
+    <path d="M437.46,0h0c4.06,0,7.35,3.29,7.35,7.35v65.92h42.72c3.57,0,6.47,2.89,6.47,6.47h0c0,3.57-2.89,6.47-6.47,6.47h-49.49c-4.38,0-7.93-3.55-7.93-7.93V7.35C430.11,3.29,433.41,0,437.46,0Z"/>
+    <path d="M547.2,0h0c4.13,0,7.95,2.23,9.97,5.84,11.06,19.71,22.13,39.42,33.19,59.04h.22c11.17-19.62,22.24-39.32,33.31-59.04C625.92,2.23,629.73,0,633.86,0h0c6.31,0,11.43,5.12,11.43,11.43v67.31c0,4.12-3.34,7.46-7.46,7.46h0c-4.12,0-7.46-3.34-7.46-7.46V26.19h-.44l-30.87,54.96c-1.75,3.12-5.05,5.05-8.63,5.05h0c-3.59,0-6.89-1.94-8.64-5.07-10.22-18.31-20.45-36.62-30.77-54.94h-.33v52.55c0,4.12-3.34,7.46-7.46,7.46h0c-4.12,0-7.46-3.34-7.46-7.46V11.43C535.77,5.12,540.89,0,547.2,0Z"/>
+    <path d="M772.95,86.21h0c-2.63,0-5.05-1.44-6.29-3.75-8.53-15.9-22.45-47.24-31.41-65.66h-.33c-9.25,18.4-22.89,49.5-31.13,65.56-1.21,2.37-3.66,3.85-6.32,3.85h0c-5.21,0-8.65-5.41-6.43-10.13l32.1-68.42C725.34,2.98,730.04,0,735.2,0h0c5.16,0,9.85,2.98,12.05,7.65l32.17,68.37c2.23,4.74-1.23,10.19-6.47,10.19Z"/>
+    <circle cx="735.25" cy="76.21" r="10"/>
+   </g>
+  </svg>
+ </section>
+
+ <!-- 3) LOGO IN CONTEXT: before/after slider -->
+ <section class="sec">
+  <div class="wrap">
+   <div class="sec-head"><span class="num">01</span> Logo v prostředí <span class="line"></span></div>
+   <h2 class="title">Stylové i v reálu.</h2>
+   <p class="lead">Logo funguje na světlém i tmavém podkladu — v jemné krémové verzi na fotografii i v sytě zelené. Přejeďte myší a porovnejte obě varianty nasazení.</p>
+
+   <div class="compare" id="cmp">
+    <img class="base" src="logo_2.jpg" alt="Světlá varianta — zelené logo">
+    <img class="top"  src="logo_1.jpg" alt="Tmavá varianta — krémové logo">
+    <div class="divider"><span class="knob">‹ ›</span></div>
+    <span class="tag tag-l">Tmavá varianta</span>
+    <span class="tag tag-r">Světlá varianta</span>
+   </div>
+   <p class="hint-sm">↔ Přejeďte myší přes obrázek pro porovnání variant</p>
   </div>
+ </section>
 
-  <!-- HERO -->
-  <section class="hero">
-    <div class="pattern-bg"></div>
-    <div class="hero-content">
-      <div class="kicker">Domov seniorů</div>
-      <span class="logomark hero-logo lm-cream"></span>
-      <div class="claim">Claim placeholder</div>
-      <div class="sub">Návrh brandu — logo, barvy, typografie, aplikace</div>
+ <!-- 4) COLOUR PALETTE -->
+ <section class="sec">
+  <div class="wrap">
+   <div class="sec-head"><span class="num">02</span> Barevnost <span class="line"></span></div>
+   <h2 class="title">Klid přírody v každém odstínu.</h2>
+   <p class="lead">Paleta vychází z tlumené zeleně a teplé krémové — barvy domova, péče a důvěry. Sytá zelená nese identitu, krémová dává prostor dýchat, hluboká zelená kotví text a detaily.</p>
+
+   <div class="swatches">
+    <div class="sw">
+     <div class="chip" style="background:#4a7a4a"><span class="role" style="color:#f5edd8">Primární</span></div>
+     <div class="meta">
+      <div class="nm">Vitalma zelená</div>
+      <dl>
+       <div class="row"><span>HEX</span><b>#4A7A4A</b></div>
+       <div class="row"><span>RGB</span><b>74 · 122 · 74</b></div>
+       <div class="row"><span>CMYK</span><b>39 0 39 52</b></div>
+      </dl>
+     </div>
     </div>
-    <div class="scroll-cue">↓ &nbsp; Listujte</div>
-  </section>
-
-  <!-- 01 KONCEPT -->
-  <section class="band cream">
-    <div class="wrap">
-      <div class="sec-label"><span class="num">01</span> Koncept <span class="line"></span></div>
-      <h2 class="head">Domov, kterému&nbsp;se&nbsp;dá&nbsp;věřit.</h2>
-      <p class="lead">Vitalma není zdravotnické zařízení — je to domov. Identita proto nemá působit chladně ani nemocnično, ale vlídně, klidně a důstojně. Stylová a moderní natolik, aby oslovila rodinu, která domov vybírá — a zároveň příjemná a srozumitelná tomu nejdůležitějšímu: seniorovi, který tu bude doma.</p>
-      <div class="feelings">
-        <span>Důvěra</span><span>Klid</span><span>Bezpečí</span><span>Důstojnost</span><span>Zázemí</span><span>Odbornost</span><span>Péče</span>
-      </div>
+    <div class="sw">
+     <div class="chip" style="background:#2c4f2c"><span class="role" style="color:#f5edd8">Text / detail</span></div>
+     <div class="meta">
+      <div class="nm">Hluboká zeleň</div>
+      <dl>
+       <div class="row"><span>HEX</span><b>#2C4F2C</b></div>
+       <div class="row"><span>RGB</span><b>44 · 79 · 44</b></div>
+       <div class="row"><span>CMYK</span><b>44 0 44 69</b></div>
+      </dl>
+     </div>
     </div>
-  </section>
-
-  <!-- 02 LOGO -->
-  <section class="band creamsoft">
-    <div class="wrap">
-      <div class="sec-label"><span class="num">02</span> Logo <span class="line"></span></div>
-      <h2 class="head">Wordmark</h2>
-      <p class="lead">Měkký geometrický wordmark s otevřenými, zaoblenými tvary. Vřelý, čitelný, sebevědomý — funguje na světlém i tmavém podkladu.</p>
-      <div class="logo-grid">
-        <div class="logo-card on-cream"><span class="logomark lc-logo lm-green"></span></div>
-        <div class="logo-card on-green"><span class="logomark lc-logo lm-cream"></span></div>
-      </div>
-      <div class="anatomy">
-        <div class="item"><h4>Apex jako motiv</h4><p>Špičky písmen V, A a M tvoří charakteristický trojúhelníkový tvar — základ celého vizuálního systému i patternu.</p></div>
-        <div class="item"><h4>Tečka = jiskra života</h4><p>Drobný akcent nad apexem evokuje člověka a „vital" — život. Z něj lze odvodit samostatný symbol.</p></div>
-        <div class="item"><h4>Ochranná zóna</h4><p>Kolem loga vždy volný prostor o výšce písmene „V", aby značka dýchala a působila důstojně.</p></div>
-      </div>
+    <div class="sw light">
+     <div class="chip" style="background:#f5edd8"><span class="role">Podklad</span></div>
+     <div class="meta">
+      <div class="nm">Krémová</div>
+      <dl>
+       <div class="row"><span>HEX</span><b>#F5EDD8</b></div>
+       <div class="row"><span>RGB</span><b>245 · 237 · 216</b></div>
+       <div class="row"><span>CMYK</span><b>0 3 12 4</b></div>
+      </dl>
+     </div>
     </div>
-  </section>
-
-  <!-- 03 SYMBOL -->
-  <section class="band green">
-    <div class="wrap">
-      <div class="sec-label"><span class="num">03</span> Symbol <span class="line"></span></div>
-      <h2 class="head">Značka, která&nbsp;funguje&nbsp;sama.</h2>
-      <p class="lead">Z písmene V a tečky vzniká samostatný brandmark — malá postava s otevřenou náručí. Použitelný jako ikona aplikace, favicon, odznak na uniformě nebo profilová fotka na sociálních sítích.</p>
-      <div class="symbol-row">
-        <div class="symbol-badge"><span class="logomark vmark lm-green"></span></div>
-        <div class="symbol-badge" style="background:var(--green-deep)"><span class="logomark vmark lm-cream"></span></div>
-      </div>
+    <div class="sw">
+     <div class="chip" style="background:#4d614d"><span class="role" style="color:#f5edd8">Doplňková</span></div>
+     <div class="meta">
+      <div class="nm">Šalvějová</div>
+      <dl>
+       <div class="row"><span>HEX</span><b>#4D614D</b></div>
+       <div class="row"><span>RGB</span><b>77 · 97 · 77</b></div>
+       <div class="row"><span>CMYK</span><b>21 0 21 62</b></div>
+      </dl>
+     </div>
     </div>
-  </section>
+   </div>
 
-  <!-- 04 BARVY -->
-  <section class="band cream">
-    <div class="wrap">
-      <div class="sec-label"><span class="num">04</span> Barevnost <span class="line"></span></div>
-      <h2 class="head">Jemná, přírodní, klidná.</h2>
-      <p class="lead">Šalvějově zelená s teplou krémovou — žádná agresivní zdravotnická červená. Monochromatická paleta evokuje přírodu, klid a bezpečí.</p>
-      <div class="swatches">
-        <div class="sw" style="background:var(--green);color:var(--cream)"><div class="name">Zelená</div><div class="hex">#4A7A4A</div><div class="role">Primární</div></div>
-        <div class="sw" style="background:var(--cream);color:var(--ink)"><div class="name">Krémová</div><div class="hex">#F5EDD8</div><div class="role">Podklad / logo</div></div>
-        <div class="sw" style="background:var(--green-dark);color:var(--cream)"><div class="name">Tmavá zelená</div><div class="hex">#376337</div><div class="role">Pattern</div></div>
-        <div class="sw" style="background:var(--green-deep);color:var(--cream)"><div class="name">Hluboká zelená</div><div class="hex">#2C4F2C</div><div class="role">Hloubka / text</div></div>
-      </div>
-    </div>
-  </section>
+   <div class="ratio">
+    <span style="flex:6;background:#4a7a4a;color:#f5edd8">60 %</span>
+    <span style="flex:3;background:#f5edd8;color:#2c4f2c">30 %</span>
+    <span style="flex:.7;background:#2c4f2c;color:#f5edd8">7</span>
+    <span style="flex:.3;background:#4d614d;color:#f5edd8">3</span>
+   </div>
+   <p class="hint-sm">Doporučený poměr nasazení — zelená dominuje, krémová odlehčuje, tmavé tóny akcentují.</p>
+  </div>
+ </section>
 
-  <!-- 05 TYPOGRAFIE -->
-  <section class="band deep">
-    <div class="wrap">
-      <div class="sec-label"><span class="num">05</span> Typografie <span class="line"></span></div>
-      <h2 class="head">Tři hlasy, jedna&nbsp;osobnost.</h2>
-      <div class="type-block">
-        <div class="role">Wordmark — měkký geometrický sans</div>
-        <span class="logomark spec-logo lm-cream"></span>
-      </div>
-      <div class="type-block">
-        <div class="role">Claim &amp; nadpisy — Marcellus</div>
-        <div class="spec-serif">Domov plný klidu</div>
-        <div class="glyphs">A B C D E F G &nbsp; a b c d e f g &nbsp; 0 1 2 3 4 5</div>
-      </div>
-      <div class="type-block">
-        <div class="role">Text — Outfit</div>
-        <div class="spec-sans">Příjemný, čitelný a moderní font pro běžný text, popisky a dokumenty.</div>
-      </div>
-    </div>
-  </section>
+<script>
+  /* intro animation */
+  var introMark=document.getElementById('intro');
+  function playForward(){ introMark.classList.add('go'); }   /* brandmark opens into wordmark */
+  function loopReset(){
+    introMark.style.opacity='0';                  /* fade the finished wordmark out */
+    setTimeout(function(){
+      introMark.classList.add('snap');            /* transitions off */
+      introMark.classList.remove('go');           /* snap back to brandmark, hidden */
+      void introMark.offsetWidth;                 /* commit the reset */
+      introMark.classList.remove('snap');         /* transitions on */
+      introMark.style.opacity='1';                /* fade the brandmark in */
+      setTimeout(playForward,260);                /* then open it again */
+    },460);
+  }
+  setTimeout(function(){ playForward(); setInterval(loopReset,5500); },400);
 
-  <!-- 06 PATTERN -->
-  <section class="band cream">
-    <div class="wrap">
-      <div class="sec-label"><span class="num">06</span> Pattern <span class="line"></span></div>
-      <h2 class="head">Vzor z apexů.</h2>
-      <p class="lead">Opakující se motiv „V + tečka" odvozený přímo z písmen wordmarku. Dává identitě texturu — pro pozadí, obálky, sociální sítě i interiér.</p>
-      <div class="pattern-show"><img src="pattern.svg" alt="Vitalma pattern"></div>
-    </div>
-  </section>
-
-  <!-- 07 APLIKACE -->
-  <section class="band green">
-    <div class="wrap">
-      <div class="sec-label"><span class="num">07</span> Aplikace <span class="line"></span></div>
-      <h2 class="head">Brand v&nbsp;praxi.</h2>
-      <p class="lead">Ukázka nasazení identity na klíčové formáty ze zadání.</p>
-      <div class="apps">
-        <div class="app">
-          <div class="paper">
-            <span class="logomark pm-paper lm-green"></span>
-            <div class="strip"></div>
-            <div class="lines"><i class="m"></i><i class="s"></i></div>
-            <div class="lines" style="margin-top:18px"><i class="l"></i><i class="l"></i><i class="m"></i><i class="l"></i><i class="s"></i></div>
-            <div class="foot"><span class="pat"></span></div>
-          </div>
-          <div class="cap">Hlavičkový papír</div>
-        </div>
-        <div class="app">
-          <div class="paper">
-            <span class="logomark pm-paper lm-green"></span>
-            <div class="doc-title">Smlouva o poskytování sociální služby</div>
-            <div class="lines"><i class="l"></i><i class="l"></i><i class="m"></i></div>
-            <div class="lines" style="margin-top:14px"><i class="l"></i><i class="l"></i><i class="l"></i><i class="s"></i></div>
-            <div class="lines" style="margin-top:14px"><i class="m"></i><i class="l"></i><i class="l"></i></div>
-            <div class="foot"><span class="pat"></span></div>
-          </div>
-          <div class="cap">Smlouva</div>
-        </div>
-        <div class="app">
-          <div class="post">
-            <div class="pat"></div>
-            <span class="logomark pm-post lm-cream" style="position:relative"></span>
-            <div class="pclaim">Claim placeholder</div>
-          </div>
-          <div class="cap">Social media post</div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- CLOSING -->
-  <section class="closing">
-    <div class="pat"></div>
-    <span class="logomark cm-close lm-cream" style="position:relative"></span>
-    <div class="cclaim">Claim placeholder</div>
-    <div class="credit">Návrh vizuální identity · eVisions</div>
-  </section>
-
+  /* before / after comparison slider (follows the cursor) */
+  var cmp=document.getElementById('cmp');
+  if(cmp){
+    var topImg=cmp.querySelector('.top'), divider=cmp.querySelector('.divider');
+    function setSplit(x){ x=Math.max(0,Math.min(100,x));
+      topImg.style.clipPath='inset(0 '+(100-x).toFixed(2)+'% 0 0)';
+      divider.style.left=x.toFixed(2)+'%'; }
+    function posX(e){ var r=cmp.getBoundingClientRect();
+      var cx=(e.touches&&e.touches[0])?e.touches[0].clientX:e.clientX;
+      return (cx-r.left)/r.width*100; }
+    cmp.addEventListener('mousemove',function(e){ setSplit(posX(e)); });
+    cmp.addEventListener('touchmove',function(e){ setSplit(posX(e)); },{passive:true});
+    setSplit(50);
+  }
+</script>
 </body>
 </html>
